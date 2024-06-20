@@ -17,12 +17,12 @@ Our vision reimagines NFT as programmable social institutions, utilizing Solana 
 
 ## Key Features:
 
-Impact crowdinvesting: SMEs can create, verify, and mint ESG NFT Vouchers and Certificates, representing both future ESG commitments and fulfilled obligations in their sustainability projects.
-Verified ESG data on blockchain: Using ESG Reporter and ESG Data Space Adaptor for ESG reporting, along with ESG data notarization on the Solana blockchain, ensures data authenticity and integrity, promoting trust among investors.
-Facilitate public goods creation: Provide tools and resources for industrial SMEs to create public goods, driving social, environmental, and economic benefits.
-Ensure traceability and trust: Comply with CSRD (Corporate Sustainability Reporting Directive) and CBAM (Carbon Border Adjustment Mechanism) initiatives to guarantee traceability and trust in ESG data.
-Web3 community engagement: ESG NFT Vouchers are listed on the SolSea NFT Marketplace, enabling Impact/ESG investors from the Web3 community to support projects that align with their long-term values.
-Impact tracking: The platform provides detailed reporting on the progress and impact of funded ESG projects, ensuring transparency and accountability.
+* Impact crowdinvesting: SMEs can create, verify, and mint ESG NFT Vouchers and Certificates, representing both future ESG commitments and fulfilled obligations in their sustainability projects.
+* Verified ESG data on blockchain: Using ESG Reporter and ESG Data Space Adaptor for ESG reporting, along with ESG data notarization on the Solana blockchain, ensures data authenticity and integrity, promoting trust among investors.
+* Facilitate public goods creation: Provide tools and resources for industrial SMEs to create public goods, driving social, environmental, and economic benefits.
+* Ensure traceability and trust: Comply with CSRD (Corporate Sustainability Reporting Directive) and CBAM (Carbon Border Adjustment Mechanism) initiatives to guarantee traceability and trust in ESG data.
+* Web3 community engagement: ESG NFT Vouchers are listed on the SolSea NFT Marketplace, enabling Impact/ESG investors from the Web3 community to support projects that align with their long-term values.
+* Impact tracking: The platform provides detailed reporting on the progress and impact of funded ESG projects, ensuring transparency and accountability.
 
 Our solution is demonstrated from the perspective of an ESG manager at AgriFi International. The ESG manager is responsible for implementing the company's ESG strategy and preparing, publishing, and sharing the ESG report, which provides disclosures for investors.
 
