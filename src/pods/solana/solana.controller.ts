@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseInterceptors, UseGuards, HttpStatus, UploadedFiles } from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UseGuards, HttpStatus, UploadedFiles, Logger } from '@nestjs/common';
 import { SolanaService } from './solana.service';
 import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
@@ -49,9 +49,9 @@ export class SolanaController {
             files: Express.Multer.File[];
         },
     ): Promise<string> {
-        return Promise.resolve('ipfsHash');
-        // Upload PDF to Chainstack
-        // const ipfsHash = await this.solanaService.uploadToChainstack(uploadedFiles.files);
+      const file = uploadedFiles.files;
+      const ipfsLink = await this.solanaService.uploadToChainstack(file[0].buffer, file[0].originalname);
+      return ipfsLink;
         // return this.solanaService.transferToSolana(ipfsHash);
     }
 }
