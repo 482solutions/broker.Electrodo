@@ -50,7 +50,8 @@ export class SolanaController {
         },
     ): Promise<string> {
         return Promise.resolve('ipfsHash');
-        // TODO: pass uploadedFiles.files to the service
-        // return this.fileService.uploadToIPFS(user, uploadedFiles.files, fileInfo);
+        // Upload PDF to Chainstack
+        // const ipfsHash = await this.solanaService.uploadToChainstack(uploadedFiles.files);
+        // return this.solanaService.transferToSolana(ipfsHash);
     }
 }
