@@ -1,2 +1,16 @@
 node_modules
 dist/
+.env
+data
+DB_data
+DB
+.eslinttc.js
+.gitignore
+.prettierrc
+Dockerfile
+Readme.md 
+image-1.png 
+image.png 
+docker-compose-dev.yaml
+docker-compose-pgadmin.yaml 
+docker-compose-prod.yaml 

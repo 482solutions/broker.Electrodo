@@ -1,0 +1,10 @@
+services:
+ api:
+  image: esg-solana-reporter-api
+  volumes:
+   - ./:/app
+   - /app/node_modules
+  ports:
+   - 4000:4000
+  command: npm run start:dev
+  network_mode: host
