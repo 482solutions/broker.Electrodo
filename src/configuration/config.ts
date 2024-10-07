@@ -1,6 +1,10 @@
 import { DataSourceOptions } from 'typeorm';
 import ormconfig from './ormconfig';
 
+export const FILE_SUPPORTED_MIMETYPES = [
+    'application/pdf',
+];
+
 interface ApplicationConfig {
     CONTEXT_BROKER_HOST: string;
     CONTEXT_BROKER_PORT: string;
