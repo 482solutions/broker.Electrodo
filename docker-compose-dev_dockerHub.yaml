@@ -1,6 +1,6 @@
 services:
  api:
-  image: esg-solana-reporter-api:latest
+  image: andrii482/esg-solana-reporter-api:latest
   container_name: esg-solana-reporter-api
   restart: always
   volumes:
