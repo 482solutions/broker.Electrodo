@@ -1,6 +1,8 @@
 import { BadRequestException, ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import PinataSDK from '@pinata/sdk';
+import axios from 'axios';
+import FormData from 'form-data';
 import PDFDocument from 'pdfkit';
 import { Readable } from 'typeorm/platform/PlatformTools';
 import bs58 from 'bs58'
@@ -35,6 +37,10 @@ export class SolanaService {
     const SOLANA_PRIVATE_KEY = this.config.get<string>('SOLANA_PRIVATE_KEY');
     this.connection = new Connection(SOLANA_ENDPOINT, { commitment: "confirmed" }); // Mainnet Beta endpoint
     this.keypair = Keypair.fromSecretKey(bs58.decode(SOLANA_PRIVATE_KEY));
+  }
+
+  private async delay(ms) {
+    await new Promise(resolve => setTimeout(resolve, ms));
   }
 
 
@@ -253,6 +259,73 @@ export class SolanaService {
       throw error;
     }
   }
+
+  async uploadToChainstack(pdfBuffer: Buffer, fileName: string): Promise<string> {
+    try {
+      const readableStreamForFile = Readable.from(pdfBuffer);
+  
+      const CHAINSTACK_BUCKET_ID = this.config.get<string>('CHAINSTACK_BUCKET_ID');
+      const CHAINSTACK_API_KEY = this.config.get<string>('CHAINSTACK_API_KEY');
+  
+      const formData = new FormData();
+      formData.append('bucket_id', CHAINSTACK_BUCKET_ID);
+      formData.append('file', readableStreamForFile, fileName);
+  
+      const uploadResponse = await axios.post(
+        'https://api.chainstack.com/v1/ipfs/pins/pinfile',
+        formData,
+        {
+          headers: {
+            ...formData.getHeaders(),
+            accept: 'application/json',
+            authorization: `Bearer ${CHAINSTACK_API_KEY}`
+          }
+        }
+      );
+  
+      const pinId = uploadResponse.data.id;
+      const publicLink = await this.getFileChainstack(pinId);
+  
+      return publicLink;
+    } catch (error) {
+      this.logger.error(`Error uploading file to Chainstack. Message: ${error?.message}`, error.stack);
+      throw error;
+    }
+  }
+  
+  async getFileChainstack(pinId: string): Promise<string> {
+    const maxRetries = 10;
+    const delayBetweenRetries = 5000;
+    const CHAINSTACK_API_KEY = this.config.get<string>('CHAINSTACK_API_KEY');
+  
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const response = await axios.get(
+          `https://api.chainstack.com/v1/ipfs/pins/${pinId}`,
+          {
+            headers: {
+              accept: 'application/json',
+              authorization: `Bearer ${CHAINSTACK_API_KEY}`
+            }
+          }
+        );
+  
+        const { status, public_link } = response.data;
+  
+        if (status !== 'pinning' && public_link) {
+          return public_link;
+        }
+  
+        await this.delay(delayBetweenRetries);
+  
+      } catch (error) {
+        this.logger.error(`Error fetching file status from Chainstack. Message: ${error?.message}`, error.stack);
+        throw error;
+      }
+    }
+  
+    throw new Error('Getting public link error. Too many retries.');
+  }  
 
   async transferToSolana(ipfsHash: string, walletAddress: string): Promise<string> {
     try {
