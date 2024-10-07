@@ -1,6 +1,8 @@
 services:
  api:
-  image: esg-solana-reporter-api
+  image: esg-solana-reporter-api:latest
+  container_name: esg-solana-reporter-api
+  restart: always
   volumes:
    - ./:/app
    - /app/node_modules
