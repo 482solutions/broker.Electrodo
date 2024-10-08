@@ -41,7 +41,6 @@ export class SolanaController {
             },
         }),
     )
-    // @UseGuards(AuthGuard('jwt'))
     @ApiResponse({ status: HttpStatus.CREATED, type: String, description: 'Upload a file' })
     async uploadToIPFS(
         @UploadedFiles()
@@ -49,9 +48,9 @@ export class SolanaController {
             files: Express.Multer.File[];
         },
     ): Promise<string> {
-      const file = uploadedFiles.files;
-      const ipfsLink = await this.solanaService.uploadToChainstack(file[0].buffer, file[0].originalname);
-      return ipfsLink;
-        // return this.solanaService.transferToSolana(ipfsHash);
+        const [file] = uploadedFiles.files;
+        const ipfsLink = await this.solanaService.uploadToChainstack(file.buffer, file.originalname);
+        await this.solanaService.transferToSolana(ipfsLink, 'A1SUNBHvTBHb749ViFoeM1XLiPRgzozs1CRAGVo5zbav');
+        return ipfsLink;
     }
 }
