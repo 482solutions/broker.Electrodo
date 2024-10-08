@@ -63,17 +63,6 @@ AgriFi International ESG manager uses the option of notarizing the ESG report on
 
 ![alt text](image-1.png)
 
-## Here's how it works:
-The manager logs into their Dashboard in Electrodo via Keyrock (ESG Data Space building block, which is responsible for user authorization).
-Once a manager has access to their dashboard, he or she can fill in the AgriFi International ESG report with relevant data.
-After filling out the report, the manager specifies the beneficiary address in the Solana blockchain in a separate field where they would like to  receive the tokenized report.
-The manager clicks the "Tokenize report" button and Electrodo backend creates a PDF file of the report, then sends it to Pinata IPFS and receives a link to the uploaded file.
-The backend then mints the NFT. The metadata of the NFT contains a link to the report file.
-
-Now, potential investors can verify the date the report was submitted, the author of the report, and be confident that the report has not been changed.
-
-More inspiration and detailed information: [Whitepaper - ESG Web3 Bazaar](https://docs.google.com/document/d/1o3fJifRXiTcxTKRRCByDDnqjWGa6r2McFUmFKX81v-A/edit?usp=sharing).
-
 ## Installation
 
 ```bash
@@ -105,3 +94,4 @@ $ yarn run test:e2e
 # test coverage
 $ yarn run test:cov
 ```
+
