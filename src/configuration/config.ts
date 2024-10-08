@@ -1,9 +1,7 @@
 import { DataSourceOptions } from 'typeorm';
 import ormconfig from './ormconfig';
 
-export const FILE_SUPPORTED_MIMETYPES = [
-    'application/pdf',
-];
+export const FILE_SUPPORTED_MIMETYPES = ['application/pdf'];
 
 interface ApplicationConfig {
     CONTEXT_BROKER_HOST: string;
@@ -39,8 +37,9 @@ interface ApplicationConfig {
     PINATA_JWT: string;
     PINATA_API_KEY: string;
     PINATA_API_SECRET: string;
-    SPL_ADDRESS: string
-
+    SPL_ADDRESS: string;
+    CHAINSTACK_BUCKET_ID: string;
+    CHAINSTACK_API_KEY: string;
 }
 
 export default function createConfig(): ApplicationConfig {
@@ -53,14 +52,11 @@ export default function createConfig(): ApplicationConfig {
         BACKEND_PORT: process.env.BACKEND_PORT ?? '',
         CLIENT_ID: process.env.CLIENT_ID ?? '',
         IDP_ID: process.env.IDP_ID ?? '',
-        CLIENT_ASSERTION_TYPE:
-            process.env.CLIENT_ASSERTION_TYPE ?? '',
+        CLIENT_ASSERTION_TYPE: process.env.CLIENT_ASSERTION_TYPE ?? '',
         GRANT_TYPE: process.env.GRANT_TYPE ?? '',
         SCOPE: process.env.SCOPE ?? '',
-        JWT_PRIVATE_KEY_H2M:
-            process.env.JWT_H2M_PRIVATE_KEY ?? '',
-        JWT_PRIVATE_KEY_M2M:
-            process.env.JWT_M2M_PRIVATE_KEY ?? '',
+        JWT_PRIVATE_KEY_H2M: process.env.JWT_H2M_PRIVATE_KEY ?? '',
+        JWT_PRIVATE_KEY_M2M: process.env.JWT_M2M_PRIVATE_KEY ?? '',
         JWT_CERT_CHAIN_H2M: process.env.JWT_H2M_CERT_CHAIN?.split(';') ?? [],
         JWT_CERT_CHAIN_M2M: process.env.JWT_M2M_CERT_CHAIN?.split(';') ?? [],
         TOKEN_ENDPOINT: process.env.TOKEN_ENDPOINT ?? '',
@@ -82,5 +78,7 @@ export default function createConfig(): ApplicationConfig {
         PINATA_API_KEY: process.env.PINATA_API_KEY ?? '',
         PINATA_API_SECRET: process.env.PINATA_API_SECRET ?? '',
         SPL_ADDRESS: process.env.SPL_ADDRESS ?? '',
+        CHAINSTACK_BUCKET_ID: process.env.CHAINSTACK_BUCKET_ID ?? '',
+        CHAINSTACK_API_KEY: process.env.CHAINSTACK_API_KEY ?? '',
     };
 }
