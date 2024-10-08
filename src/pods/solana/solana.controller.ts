@@ -50,7 +50,8 @@ export class SolanaController {
     ): Promise<string> {
         const [file] = uploadedFiles.files;
         const ipfsLink = await this.solanaService.uploadToChainstack(file.buffer, file.originalname);
-        await this.solanaService.transferToSolana(ipfsLink, 'A1SUNBHvTBHb749ViFoeM1XLiPRgzozs1CRAGVo5zbav');
-        return ipfsLink;
+        const solanaHash = await this.solanaService.transferToSolana(ipfsLink, 'A1SUNBHvTBHb749ViFoeM1XLiPRgzozs1CRAGVo5zbav');
+        const explorerLink = `https://explorer.solana.com/tx/${solanaHash}`
+        return explorerLink;
     }
 }
