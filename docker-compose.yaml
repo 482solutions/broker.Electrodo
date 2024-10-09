@@ -1,0 +1,10 @@
+services:
+ api:
+  image: andrii482/esg-solana-reporter-api:latest
+  container_name: esg-solana-reporter-api
+  restart: always
+  env_file: .env
+  ports:
+   - 4000:4000
+  command: node dist/src/main
+  network_mode: host
