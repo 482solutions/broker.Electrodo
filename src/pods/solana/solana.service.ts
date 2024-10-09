@@ -31,6 +31,7 @@ import {
     TYPE_SIZE,
 } from '@solana/spl-token';
 import { pack, TokenMetadata } from '@solana/spl-token-metadata';
+import { UploadedFile } from 'src/utils';
 
 @Injectable()
 export class SolanaService {
@@ -302,7 +303,7 @@ export class SolanaService {
         }
     }
 
-    async uploadToChainstack(pdfBuffer: Buffer, fileName: string): Promise<string> {
+    async uploadToChainstack(pdfBuffer: Buffer, fileName: string): Promise<UploadedFile> {
         try {
             const readableStreamForFile = Readable.from(pdfBuffer);
 
@@ -323,7 +324,7 @@ export class SolanaService {
             const pinId = uploadResponse.data.id;
             const publicLink = await this.getFileChainstack(pinId);
 
-            return publicLink;
+            return { name: fileName, ipfsLink: publicLink };
         } catch (error) {
             this.logger.error(
                 `Error uploading file to Chainstack. Message: ${error?.message}. Errors: ${error.response.data}`,

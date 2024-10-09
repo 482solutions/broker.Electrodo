@@ -5,6 +5,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import multer from 'multer';
 import { FileUploadDto } from './file-upload.dto';
 import { FILE_SUPPORTED_MIMETYPES } from 'src/configuration/config';
+import { TokenizedFile } from 'src/utils';
 
 const maxFilesLimit = parseInt(process.env.FILE_MAX_FILES, 10) || 1;
 const maxFileSize = parseInt(process.env.FILE_MAX_FILE_SIZE, 10) || 5242880;
@@ -47,11 +48,14 @@ export class SolanaController {
         uploadedFiles: {
             files: Express.Multer.File[];
         },
-    ): Promise<string> {
+    ): Promise<TokenizedFile> {
         const [file] = uploadedFiles.files;
-        const ipfsLink = await this.solanaService.uploadToChainstack(file.buffer, file.originalname);
-        const solanaHash = await this.solanaService.transferToSolana(ipfsLink, 'A1SUNBHvTBHb749ViFoeM1XLiPRgzozs1CRAGVo5zbav');
-        const explorerLink = `https://explorer.solana.com/tx/${solanaHash}`
-        return explorerLink;
+        const { ipfsLink } = await this.solanaService.uploadToChainstack(file.buffer, file.originalname);
+        const solanaHash = await this.solanaService.transferToSolana(
+            ipfsLink,
+            'A1SUNBHvTBHb749ViFoeM1XLiPRgzozs1CRAGVo5zbav',
+        );
+        const explorerLink = `https://explorer.solana.com/tx/${solanaHash}?cluster=devnet`;
+        return { explorerLink };
     }
 }
