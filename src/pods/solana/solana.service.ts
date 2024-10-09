@@ -103,12 +103,10 @@ export class SolanaService {
         return transactionSignature;
     }
 
-    private async createTokenAndMint(ipfsHash: string): Promise<string> {
+    private async createTokenAndMint(ipfsLink: string): Promise<string> {
         try {
             const decimals = 0;
             const mintAmount = 1;
-            const PINATA_JWT = this.config.get<string>('PINATA_JWT');
-            const PINATA_ENDPOINT = this.config.get<string>('PINATA_ENDPOINT');
 
             const payer = this.keypair;
             const mint = Keypair.generate();
@@ -122,7 +120,7 @@ export class SolanaService {
                 uri: '',
                 additionalMetadata: [
                     ['tag', 'Link to IPFS'],
-                    ['data', `${PINATA_ENDPOINT}/ipfs/${ipfsHash}?pinataGatewayToken=${PINATA_JWT}`],
+                    ['data', ipfsLink],
                 ],
             };
 
@@ -367,9 +365,9 @@ export class SolanaService {
         throw new Error('Getting public link error. Too many retries.');
     }
 
-    async transferToSolana(ipfsHash: string, walletAddress: string): Promise<string> {
+    async transferToSolana(ipfsLink: string, walletAddress: string): Promise<string> {
         try {
-            if (!ipfsHash) {
+            if (!ipfsLink) {
                 throw new ForbiddenException({ message: 'IPFS Hash - necessary information for data transfer.' });
             }
             if (!walletAddress) {
@@ -379,7 +377,7 @@ export class SolanaService {
             const balance = await this.getAccountBalance(payerPublicKey);
             this.logger.log(`${balance / LAMPORTS_PER_SOL} SOL`);
 
-            const transaction = this.createTokenAndMint(ipfsHash).then(
+            const transaction = this.createTokenAndMint(ipfsLink).then(
                 async (publicKey) => await this.transfer(publicKey, walletAddress),
             );
             return transaction;
