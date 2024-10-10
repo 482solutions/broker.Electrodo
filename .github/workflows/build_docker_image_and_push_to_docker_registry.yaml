@@ -1,0 +1,29 @@
+name: build_docker_image_and_push_to_docker_registry
+on:
+    workflow_dispatch:
+jobs:
+    main-job:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '21'
+
+            - name: Build docker image
+              run: sudo  docker build -t esg-solana-reporter-api .
+
+            - name: Login to ACR
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_TOKEN }}
+
+            - name: Add image tag
+              run: docker tag esg-solana-reporter-api:latest andrii482/esg-solana-reporter-api:latest
+
+            - name: Push image to registry
+              run: docker push andrii482/esg-solana-reporter-api:latest
